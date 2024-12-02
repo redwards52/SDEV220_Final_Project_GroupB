@@ -1,91 +1,157 @@
-#Template for our coffee shop with no UI/UX
-class Main():
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButton, QLabel, QWidget, QMessageBox, QStackedWidget
+from PyQt5.QtCore import Qt
+
+class CoffeeShopApp(QMainWindow):
     def __init__(self):
-        self.choice = {1: "Shop",2: "Inventory",3: "Order",4: "Payment"}
-        self.show_options()
-        self.select_options()
+        super().__init__()
+        self.setWindowTitle("Coffee Shop")
+        self.setGeometry(100, 100, 400, 300)
+        self.initUI()
 
-    #Shows the options to navigate on the app
-    def show_options(self):
-        for key, value in self.choice.items():
-            print(f"{key}. {value}")
+    def initUI(self):
+        layout = QVBoxLayout()
 
-    #Allows the user to select from the options
-    def select_options(self):
-        try:
-            option = int(input("Please select an option to navigate: (Enter the corresponding number) "))
-            if option == 1:
-                Shop() #This runs the shop class when user input equals 1
-            elif option == 2:
-                Inventory()
-            elif option == 3:
-                Order()
-            elif option == 4:
-                Payment()
-            else: 
-                print("Coming soon!") #Prints coming soon if othe than 1, as these classes are not made yet
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            self.select_options()
+        # Create a QLabel for the welcome message
+        welcome_label = QLabel("Welcome to the Coffee Shop")
+        welcome_label.setAlignment(Qt.AlignCenter)  # Center the label
+        welcome_label.setStyleSheet("font-size: 20px; font-weight: bold;")
+        
+        # Add label to layout
+        layout.addWidget(welcome_label)
 
-class Shop():
+        # Buttons
+        shop_button = QPushButton("Shop")
+        shop_button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+        shop_button.clicked.connect(self.show_shop)
+        layout.addWidget(shop_button)
+
+        inventory_button = QPushButton("Inventory")
+        inventory_button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+        inventory_button.clicked.connect(self.show_inventory)
+        layout.addWidget(inventory_button)
+
+        order_button = QPushButton("Order")
+        order_button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+        order_button.clicked.connect(self.show_order)
+        layout.addWidget(order_button)
+
+        payment_button = QPushButton("Payment")
+        payment_button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+        payment_button.clicked.connect(self.show_payment)
+        layout.addWidget(payment_button)
+
+        # Set layout in a central widget
+        container = QWidget()
+        container.setLayout(layout)
+
+        # Set background color to tan for the main window
+        container.setStyleSheet("background-color: #D2B48C;")  # Set tan color
+
+        # Stacked widget for different pages
+        self.stacked_widget = QStackedWidget()
+        self.stacked_widget.addWidget(container)
+
+        # Set stacked widget as the central widget
+        self.setCentralWidget(self.stacked_widget)
+
+    def show_shop(self):
+        self.stacked_widget.setCurrentIndex(1)  # Show the shop window
+        self.shop_window = ShopWindow(self.stacked_widget)
+        self.stacked_widget.addWidget(self.shop_window)
+
+    def show_inventory(self):
+        QMessageBox.information(self, "Inventory", "This will show inventory details.")
+
+    def show_order(self):
+        QMessageBox.information(self, "Order", "This will show order details.")
+
+    def show_payment(self):
+        QMessageBox.information(self, "Payment", "This will show payment options.")
+
+
+class ShopWindow(QWidget):
+    def __init__(self, stacked_widget):
+        super().__init__()
+        self.stacked_widget = stacked_widget
+        self.setWindowTitle("Shop")
+        self.setGeometry(150, 150, 300, 300)
+        self.initUI()
+
+    def initUI(self):
+        layout = QVBoxLayout()
+
+        # Title Label - Centered
+        title_label = QLabel("Shop Menu")
+        title_label.setAlignment(Qt.AlignCenter)  # Center the label
+        title_label.setStyleSheet("font-size: 16px; font-weight: bold; text-align: center;")
+        layout.addWidget(title_label)
+
+        # Drink Buttons
+        drink_buttons = {
+            "Water $1.00": self.show_water_options,
+            "Coffee $3.50": self.show_coffee_options,
+            "Soda $2.00": self.show_soda_options,
+        }
+
+        for drink, handler in drink_buttons.items():
+            button = QPushButton(drink)
+            button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+            button.clicked.connect(handler)
+            layout.addWidget(button)
+
+        # Back Button
+        back_button = QPushButton("Back")
+        back_button.setStyleSheet("background-color: rgb(139, 69, 19); color: white; border: 1px solid black;")
+        back_button.clicked.connect(self.back_to_main)
+        layout.addWidget(back_button)
+
+        # Set layout
+        self.setLayout(layout)
+
+        # Set background color to tan for the shop menu
+        self.setStyleSheet("background-color: #D2B48C;")  # Set tan color for full window
+
+    def back_to_main(self):
+        # Go back to the main page
+        self.stacked_widget.setCurrentIndex(0)
+
+    def show_water_options(self):
+        QMessageBox.information(self, "Water Options", "1. Iced Water\n2. Warm Water")
+
+    def show_coffee_options(self):
+        QMessageBox.information(self, "Coffee Options", "1. Iced Coffee\n2. Hot Coffee")
+
+    def show_soda_options(self):
+        QMessageBox.information(self, "Soda Options", "1. List of all available sodas")
+
+
+class OrderWindow(QWidget):
     def __init__(self):
-        self.drinks = {1: "Water $1.00",2: "Coffee $3.50",3: "Soda $2.00",4: "Other"}
-        self.show_menu()
-        self.select_drink()
-    
-    def show_menu(self):
-        for key, value in self.drinks.items():
-            print(f"{key}. {value}")
+        super().__init__()
+        self.setWindowTitle("Order Details")
+        self.setGeometry(150, 150, 300, 300)
+        self.initUI()
 
-    def select_drink(self):
-        try:
-            drink = int(input("What would you like to drink? (Enter the number): "))
-            if drink == 1:
-                print("Options for Water:")
-                print("1. Iced Water")
-                print("2. Warm Water")
-            elif drink == 2:
-                print("Options for Coffee:")
-                print("1. Iced Coffee")
-                print("2. Hot Coffee")
-                print("3. List of all available Coffee")
-            elif drink == 3:
-                print("Options for Soda:")
-                print("1. List of all available sodas")
-            elif drink == 4:
-                my_drink = input("Please enter your preferred drink: ")
-                print(f"You selected: {my_drink}")
-            else:
-                print("Invalid option. Please choose a number from the menu.")
-                self.select_drink() 
-        except ValueError:
-            print("Invalid input. Please enter a number.")
-            self.select_drink()
+    def initUI(self):
+        layout = QVBoxLayout()
 
-class Inventory():
-    def __init__(self):
-        self.prompt1 = "This will show the inventory when we get to it!"
-        self.show_prompt1()
+        # Title Label
+        title_label = QLabel("Order Details")
+        title_label.setStyleSheet("font-size: 16px; font-weight: bold; text-align: center;")
+        layout.addWidget(title_label)
 
-    def show_prompt1(self):
-        print(self.prompt1)
+        # Placeholder for order details
+        order_details = QLabel("No orders placed yet.")
+        layout.addWidget(order_details)
 
-class Order():
-    def __init__(self):
-        self.prompt2 = "This will show the Order for the user when it is ready!"
-        self.show_prompt2()
-
-    def show_prompt2(self):
-        print(self.prompt2)
-
-class Payment():
-    def __init__(self):
-        self.prompt3 = "This will show the payment options when it is ready!"
-        self.show_prompt3()
-
-    def show_prompt3(self):
-        print(self.prompt3)
+        # Set layout
+        self.setLayout(layout)
 
 
-Main()
+# Run the Application
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = CoffeeShopApp()
+    main_window.show()
+    sys.exit(app.exec_())
