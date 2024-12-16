@@ -1,4 +1,4 @@
-import sys
+iimport sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QVBoxLayout, QPushButton, QLabel, QWidget,
     QMessageBox, QStackedWidget, QHBoxLayout, QScrollArea, QFrame, QGridLayout, QComboBox
@@ -8,20 +8,19 @@ from PyQt5.QtCore import Qt
 class CoffeeShopApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Coffee Shop")
+        self.setWindowTitle("Little Bear Coffee")
         self.shop_window = None
         self.order_window = None
         self.payment_window = None
         self.show_shop_func = None
         self.initUI()
-        self.showFullScreen()
 
     def initUI(self):
         self.show_shop_func = self.show_shop
         layout = QVBoxLayout()
 
         # Create a QLabel for the welcome message
-        welcome_label = QLabel("Welcome to the Coffee Shop")
+        welcome_label = QLabel("Welcome to the Little Bear Coffee Shop")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label.setStyleSheet("font-size: 24px; font-weight: bold; font-family: Arial;")
         layout.addWidget(welcome_label)
@@ -66,14 +65,14 @@ class CoffeeShopApp(QMainWindow):
         order_button = QPushButton("Order Details")
         order_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(139, 69, 19);
+                background-color: rgb(55, 77, 120);
                 color: white;
                 border: 1px solid black;
                  font-size: 14px;
                 height: 40px;
             }
             QPushButton:hover {
-                background-color: rgb(205, 133, 63);
+                background-color: rgb(83, 116, 181);
                 color: black;
             }
         """)
@@ -84,14 +83,14 @@ class CoffeeShopApp(QMainWindow):
         exit_button = QPushButton("Exit")
         exit_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(139, 69, 19);
+                background-color: rgb(55, 77, 120);
                 color: white;
                 border: 1px solid black;
                 height: 40px;
                  font-size: 14px;
             }
             QPushButton:hover {
-                background-color: rgb(205, 133, 63);
+                background-color: rgb(83, 116, 181);
                 color: black;
             }
         """)
@@ -164,14 +163,14 @@ class ShopWindow(QWidget):
         view_order_button = QPushButton("View Order")
         view_order_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(139, 69, 19);
+                background-color: rgb(55, 77, 120);
                 color: white;
                 border: 1px solid black;
                 height: 40px;
                 font-size: 14px;
             }
             QPushButton:hover {
-                background-color: rgb(205, 133, 63);
+                background-color: rgb(83, 116, 181);
                 color: black;
             }
         """)
@@ -182,14 +181,14 @@ class ShopWindow(QWidget):
         back_button = QPushButton("Back")
         back_button.setStyleSheet("""
             QPushButton {
-                background-color: rgb(139, 69, 19);
+                background-color: rgb(55, 77, 120);
                 color: white;
                 border: 1px solid black;
                 height: 40px;
                 font-size: 14px;
             }
             QPushButton:hover {
-                background-color: rgb(205, 133, 63);
+                background-color: rgb(83, 116, 181);
                 color: black;
             }
         """)
@@ -257,14 +256,14 @@ class ShopWindow(QWidget):
                     add_button = QPushButton("Add to Order")
                     add_button.setStyleSheet("""
                         QPushButton {
-                            background-color: rgb(139, 69, 19);
+                            background-color: rgb(55, 77, 120);
                             color: white;
                             border: 1px solid black;
                             height: 35px;
                             font-size: 12px;
                         }
                         QPushButton:hover {
-                            background-color: rgb(205, 133, 63);
+                            background-color: rgb(83, 116, 181);
                             color: black;
                         }
                     """)
@@ -537,7 +536,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyleSheet("""
         QWidget {
-            background-color: #D2B48c; /* Makes whole app background tan */
+            background-color: #EBEEF7; /* Makes whole app background white */
         }
     """)
     main_window = CoffeeShopApp()
